@@ -9,9 +9,8 @@ RUN apt-get update && apt-get install -y tcl
 RUN {                                      \
   echo '#!/bin/bash';                      \
   echo '/app/configure';                   \
-  echo 'touch -d "$(date -R -r /app/Makefile.linux-gcc)" /app/Makefile.in' \
   echo 'export META_PLUGIN_ACTIVATED="Y"'; \
-  echo 'make -j$(nproc)';                  \
+  echo 'make sqlite3.lo';                  \
 } > /mlos-build.sh \
   && chmod +x /mlos-build.sh
 
