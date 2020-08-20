@@ -31,29 +31,23 @@ BCC = @BUILD_CC@ @BUILD_CFLAGS@
 CC = @CC@
 CFLAGS = @CPPFLAGS@ @CFLAGS@
 TCC = ${CC} ${CFLAGS} -I. -I${TOP}/src -I${TOP}/ext/rtree -I${TOP}/ext/icu
-LCC = clang ${CFLAGS} -I. -I${TOP}/src -I${TOP}/ext/rtree -I${TOP}/ext/icu
 TCC += -I${TOP}/ext/fts3 -I${TOP}/ext/async -I${TOP}/ext/session
-LCC += -I${TOP}/ext/fts3 -I${TOP}/ext/async -I${TOP}/ext/session
 TCC += -I${TOP}/ext/userauth
-LCC += -I${TOP}/ext/userauth
 
 # Define this for the autoconf-based build, so that the code knows it can
 # include the generated config.h
 #
 TCC += -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite
-LCC += -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite
 
 # Define -DNDEBUG to compile without debugging (i.e., for production usage)
 # Omitting the define will cause extra debugging code to be inserted and
 # includes extra comments when "EXPLAIN stmt" is used.
 #
 TCC += @TARGET_DEBUG@
-LCC += @TARGET_DEBUG@
 
 # Compiler options needed for programs that use the TCL library.
 #
 TCC += @TCL_INCLUDE_SPEC@
-LCC += @TCL_INCLUDE_SPEC@
 
 # The library that programs using TCL must link against.
 #
@@ -71,7 +65,6 @@ LIBREADLINE = @TARGET_READLINE_LIBS@
 # Should the database engine be compiled threadsafe
 #
 TCC += -DSQLITE_THREADSAFE=@SQLITE_THREADSAFE@
-LCC += -DSQLITE_THREADSAFE=@SQLITE_THREADSAFE@
 
 # Any target libraries which libsqlite must be linked against
 #
@@ -92,16 +85,13 @@ TEMP_STORE = -DSQLITE_TEMP_STORE=@TEMP_STORE@
 OPT_FEATURE_FLAGS = @OPT_FEATURE_FLAGS@
 
 TCC += $(OPT_FEATURE_FLAGS)
-LCC += $(OPT_FEATURE_FLAGS)
 
 # Add in any optional parameters specified on the make commane line
 # ie.  make "OPTS=-DSQLITE_ENABLE_FOO=1 -DSQLITE_OMIT_FOO=1".
 TCC += $(OPTS)
-LCC += $(OPTS)
 
 # Add in compile-time options for some libraries used by extensions
 TCC += @HAVE_ZLIB@
-LCC += @HAVE_ZLIB@
 
 # Version numbers and release number for the SQLite being compiled.
 #
@@ -168,7 +158,7 @@ ALLOWRELEASE = @ALLOWRELEASE@
 
 # libtool compile/link/install
 LTCOMPILE = $(LIBTOOL) --mode=compile --tag=CC $(TCC) $(LTCOMPILE_EXTRAS)
-LTLINK = $(LIBTOOL) --mode=link $(LCC) $(LTCOMPILE_EXTRAS) @LDFLAGS@ $(LTLINK_EXTRAS)
+LTLINK = $(LIBTOOL) --mode=link $(TCC) $(LTCOMPILE_EXTRAS) @LDFLAGS@ $(LTLINK_EXTRAS)
 LTINSTALL = $(LIBTOOL) --mode=install $(INSTALL)
 
 # You should not have to change anything below this line
